@@ -1,8 +1,8 @@
 import express from "express";
-import userRoutes from "../db/src/routes/user.routes.js"
-import postRoutes from "../db/src/routes/post.routes.js"
-import authRoutes from "../db/src/routes/auth.routes.js"
-import { protect  } from "../db/src/middlewares/auth.middleware.js"
+import userRoutes from "./src/routes/user.routes.js"
+import postRoutes from "./src/routes/post.routes.js"
+import authRoutes from "./src/routes/auth.routes.js"
+import { protect  } from "./src/middlewares/auth.middleware.js"
 import commentRoutes from "./src/routes/comment.routes.js";
 import likeRoutes from "./src/routes/like.routes.js"; 
 
