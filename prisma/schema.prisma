@@ -1,0 +1,85 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  posts    Post[]
+  comments  Comment[]
+  likes    Like[]    
+
+
+}
+
+model Post {
+  id        Int    @id @default(autoincrement())
+  title     String
+  content   String
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+  comments  Comment[]
+  likes    Like[]    
+
+
+}
+
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  likes    Like[]    
+
+}
+
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  
+  // Polymorphic relations - a like can be on a post OR comment
+  postId    Int?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  commentId Int?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  // Ensure a user can only like a post/comment once
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
